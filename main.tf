@@ -119,7 +119,6 @@ EOF
 
 resource "aws_iam_role_policy" "bastion_host_role_policy" {
   name        = "bastion_host_role_policy"
-  description = "Policy to access S3 bucket for bastion host"
   role        = "${aws_iam_role.bastion_host_role.id}"
 
   policy = <<EOF
