@@ -93,7 +93,9 @@ resource "aws_security_group" "private_instances_security_group" {
 }
 
 resource "aws_iam_role" "bastion_host_role" {
-  path = "/"
+  name        = "bastion_host_role"
+  description = "Allow bastion host to access EC2 and S3 services"
+  path        = "/"
 
   assume_role_policy = <<EOF
 {
@@ -116,7 +118,9 @@ EOF
 }
 
 resource "aws_iam_role_policy" "bastion_host_role_policy" {
-  role = "${aws_iam_role.bastion_host_role.id}"
+  name        = "bastion_host_role_policy"
+  description = "Policy to access S3 bucket for bastion host"
+  role        = "${aws_iam_role.bastion_host_role.id}"
 
   policy = <<EOF
 {
