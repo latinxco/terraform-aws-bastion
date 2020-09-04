@@ -76,7 +76,7 @@ resource "aws_s3_bucket_object" "bucket_public_keys_readme" {
 
 resource "aws_security_group" "bastion_host_security_group" {
   description = "Enable SSH access to the bastion host from external via SSH port"
-  name        = "lc-host"
+  name        = "${local.name_prefix}-host"
   vpc_id      = var.vpc_id
 
   tags = merge(var.tags)
@@ -106,7 +106,7 @@ resource "aws_security_group_rule" "egress_bastion" {
 
 resource "aws_security_group" "private_instances_security_group" {
   description = "Enable SSH access to the Private instances from the bastion via SSH port"
-  name        = "lc-priv-instances"
+  name        = "${local.name_prefix}-priv-instances"
   vpc_id      = var.vpc_id
 
   tags = merge(var.tags)
