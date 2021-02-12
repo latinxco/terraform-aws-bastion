@@ -20,7 +20,7 @@ resource "aws_kms_alias" "alias" {
 
 resource "aws_s3_bucket" "bucket" {
   bucket = var.bucket_name
-  acl    = "bucket-owner-full-control"
+  acl    = "private"
 
   server_side_encryption_configuration {
     rule {
@@ -163,7 +163,7 @@ data "aws_iam_policy_document" "bastion_host_policy_document" {
       "s3:ListBucket"
     ]
     resources = [
-      aws_s3_bucket.bucket.arn]
+    aws_s3_bucket.bucket.arn]
 
     condition {
       test     = "ForAnyValue:StringEquals"
@@ -184,8 +184,8 @@ data "aws_iam_policy_document" "bastion_host_policy_document" {
 }
 
 resource "aws_iam_policy" "bastion_host_policy" {
-  name_prefix   = "BastionHost"
-  policy = data.aws_iam_policy_document.bastion_host_policy_document.json
+  name_prefix = "BastionHost"
+  policy      = data.aws_iam_policy_document.bastion_host_policy_document.json
 }
 
 resource "aws_iam_role_policy_attachment" "bastion_host" {
@@ -307,8 +307,8 @@ resource "aws_autoscaling_group" "bastion_auto_scaling_group" {
   ]
 
   tags = concat(
-  list(map("key", "Name", "value", "ASG-${local.name_prefix}", "propagate_at_launch", true)),
-  local.tags_asg_format
+    list(map("key", "Name", "value", "ASG-${local.name_prefix}", "propagate_at_launch", true)),
+    local.tags_asg_format
   )
 
   lifecycle {
